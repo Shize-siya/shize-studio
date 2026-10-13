@@ -5,9 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Shize Studio — UE5 游戏功能演示</title>
 <meta name="description" content="Shize Studio — 虚幻引擎 5 游戏功能开发。FPS 武器、位移、战斗与 AI 系统，全部来自可玩版本的实际录屏。">
+<meta name="theme-color" content="#05070a">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2305070a'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%233ad9ff' stroke-width='4'/%3E%3Cpath d='M32 7v11M32 46v11M7 32h11M46 32h11' stroke='%233ad9ff' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<!-- 分享预览。og:image 用绝对地址才会被各平台抓取，部署到固定域名后把它换成完整 URL。 -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="Shize Studio">
+<meta property="og:title" content="Shize Studio — UE5 游戏功能演示">
+<meta property="og:description" content="虚幻引擎 5 游戏功能开发。FPS 武器、位移、战斗连段与敌人 AI，21 段录屏全部来自可玩版本的实际运行画面。">
+<meta property="og:image" content="assets/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shize Studio — UE5 游戏功能演示">
+<meta name="twitter:description" content="虚幻引擎 5 游戏功能开发。FPS 武器、位移、战斗连段与敌人 AI，录屏全部来自可玩版本。">
+<meta name="twitter:image" content="assets/og-cover.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- 字体样式表改为非阻塞加载：国内网络下 fonts.googleapis.com 常超时，
+     阻塞式 link 会把首屏一起拖住。先按 print 载入，加载完成再切回 all。 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"></noscript>
 <style>
 :root{
   --bg:#05070a;
@@ -56,6 +74,44 @@ button{
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 a{-webkit-tap-highlight-color:transparent;}
+
+/* ---------- focus ---------- */
+/* 全站只给键盘焦点画圈：鼠标点击不出现焦点环，键盘 tab 一定看得见。 */
+:focus{outline:none;}
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+/* ---------- no-JS ---------- */
+.nojs{
+  position:fixed; inset:0;
+  z-index:400;
+  display:grid;
+  place-content:center;
+  justify-items:center;
+  gap:14px;
+  padding:32px;
+  text-align:center;
+  background:var(--bg);
+}
+.nojs h1{
+  margin:0;
+  font-size:clamp(22px, 4vw, 40px);
+  font-weight:600;
+  letter-spacing:-.02em;
+  text-transform:uppercase;
+}
+.nojs h1 em{font-style:normal;color:var(--accent);}
+.nojs p{
+  max-width:44ch;
+  margin:0;
+  font-size:13.5px;
+  line-height:1.9;
+  color:rgba(230,241,247,.7);
+}
+.nojs a{color:var(--accent);}
 
 /* ---------- ambient blueprint layers ---------- */
 .grid-veil,
@@ -158,6 +214,7 @@ body.revealed #headline .inner span{
 .card{
   position:absolute; top:0; left:0;
   transform-origin:50% 50%;
+  cursor:pointer;
 }
 .card figure{
   position:relative;
@@ -1327,9 +1384,21 @@ body.devopen .dwrap{opacity:1;transform:none;}
 </head>
 <body class="locked">
 
-<div id="scrolltrack"></div>
-<div class="grid-veil"></div>
-<div class="scan-veil"></div>
+<noscript>
+  <style>
+    #splash,#intro,#stage,.grid-veil,.scan-veil,.vig,.chrome,#dot{display:none !important;}
+    html,body{overflow:auto !important;height:auto !important;}
+  </style>
+  <div class="nojs">
+    <h1>Shize <em>Studio</em></h1>
+    <p>虚幻引擎 5 游戏功能开发。本站的 3D 作品球需要浏览器启用 JavaScript 才能查看，开启后即可浏览 21 段功能演示录屏。</p>
+    <p>也可以直接邮件联系：<a href="mailto:hello@shize.studio">hello@shize.studio</a></p>
+  </div>
+</noscript>
+
+<div id="scrolltrack" aria-hidden="true"></div>
+<div class="grid-veil" aria-hidden="true"></div>
+<div class="scan-veil" aria-hidden="true"></div>
 
 <div id="stage">
   <div id="world">
@@ -1338,9 +1407,9 @@ body.devopen .dwrap{opacity:1;transform:none;}
   </div>
 </div>
 
-<div class="vig"></div>
+<div class="vig" aria-hidden="true"></div>
 
-<div id="grid">
+<div id="grid" inert>
   <div class="ghead">
     <span><b>作品档案</b> — 游戏功能演示</span>
     <span id="gcount">00 项</span>
@@ -1348,7 +1417,7 @@ body.devopen .dwrap{opacity:1;transform:none;}
   <div class="rows" id="gridRows"></div>
 </div>
 
-<div id="devlog">
+<div id="devlog" inert>
   <div class="dwrap">
     <div class="dhead">
       <span><b>开发手记</b> — DEVLOG</span>
@@ -1451,7 +1520,7 @@ body.devopen .dwrap{opacity:1;transform:none;}
 
 <div class="cue chrome"><s></s>拖拽旋转</div>
 
-<div id="menu">
+<div id="menu" inert>
   <nav>
     <a href="#" data-num="01" data-grid>作品档案</a>
     <a href="#" data-num="02" data-devlog>开发手记</a>
@@ -1461,12 +1530,12 @@ body.devopen .dwrap{opacity:1;transform:none;}
   <div class="addr">Shize Studio · 虚幻引擎 5 游戏功能开发<br>hello@shize.studio</div>
 </div>
 
-<div id="lit">
-  <div class="scrim" data-close></div>
+<div id="lit" role="dialog" aria-modal="true" aria-labelledby="litTitle" inert>
+  <div class="scrim" data-close aria-hidden="true"></div>
   <div class="plate" id="plate">
     <div class="shot" id="shot">
       <img id="litImg" alt="">
-      <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+      <span class="brk tl" aria-hidden="true"></span><span class="brk tr" aria-hidden="true"></span><span class="brk bl" aria-hidden="true"></span><span class="brk br" aria-hidden="true"></span>
       <div class="bar">
         <span class="idx-tag" id="litIdx"></span>
         <span class="grow"></span>
@@ -1484,35 +1553,35 @@ body.devopen .dwrap{opacity:1;transform:none;}
 </div>
 
 <div id="intro">
-  <div class="bgrid"></div>
-  <div class="ring"><i></i><i></i></div>
-  <div class="hudbox">
+  <div class="bgrid" aria-hidden="true"></div>
+  <div class="ring" aria-hidden="true"><i></i><i></i></div>
+  <div class="hudbox" aria-hidden="true">
     <b></b><b></b><b></b><b></b>
     <s>Shize Studio <em>//</em> 开场序列</s>
   </div>
 
   <div class="boot">
     <div class="word"><span style="--i:0">Shize</span><span style="--i:1">Studio</span></div>
-    <div class="bootlog">
+    <div class="bootlog" aria-hidden="true">
       <p><i>01</i><em></em><b></b></p>
       <p><i>02</i><em></em><b></b></p>
       <p><i>03</i><em></em><b></b></p>
     </div>
-    <div class="bar"><s></s></div>
+    <div class="bar" aria-hidden="true"><s></s></div>
   </div>
 
-  <div class="sweep"></div>
-  <div class="veil"></div>
+  <div class="sweep" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
   <button class="skip" id="skip" type="button">跳过</button>
 </div>
 
-<div id="splash">
+<div id="splash" aria-hidden="true">
   <div class="mark">Made by Shize</div>
   <div class="bar"><s id="bar"></s></div>
   <div class="tag" id="splashTag">游戏功能演示集</div>
 </div>
 
-<div id="dot"></div>
+<div id="dot" aria-hidden="true"></div>
 
 <script>
 (function(){
@@ -1553,6 +1622,10 @@ body.devopen .dwrap{opacity:1;transform:none;}
   var RAD = Math.PI / 180;
   var docEl = document.documentElement;
   var body = document.body;
+
+  /* 系统开了"减少动态效果"时，整段开场序列直接跳过 */
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e){}
 
   var orb = document.getElementById('orb');
   var world = document.getElementById('world');
@@ -1598,6 +1671,10 @@ body.devopen .dwrap{opacity:1;transform:none;}
   var cardEls = [], cardFigs = [], cardImgs = [], gridImgs = [], gridFigs = [];
   var cardDimCache = [], cardFadeCache = [];
 
+  /* 首屏只等前 8 张，其余在揭示之后分批补。
+     21 张素材合计 60MB+，全部并发下载会把 splash 顶到 9 秒兜底才揭开。 */
+  var EAGER = Math.min(N, 8);
+
   function pad2(n){ return (n < 10 ? '0' : '') + n; }
 
   for (var k = 0; k < N; k++){
@@ -1627,13 +1704,17 @@ body.devopen .dwrap{opacity:1;transform:none;}
     card.appendChild(fig);
     orb.appendChild(card);
 
+    /* 网格条目同时充当球面的无障碍替代视图：可聚焦、回车/空格打开灯箱 */
     var gfig = document.createElement('figure');
     gfig.setAttribute('data-idx', String(k));
+    gfig.setAttribute('role', 'button');
+    gfig.setAttribute('tabindex', '0');
+    gfig.setAttribute('aria-label', item.code + ' · ' + item.title + '（' + item.cat + '）');
     var gimg = document.createElement('img');
     gimg.decoding = 'async';
     gimg.loading = 'lazy';
     gimg.draggable = false;
-    gimg.alt = item.title;
+    gimg.alt = '';
     var cap = document.createElement('figcaption');
     cap.innerHTML = '<i>' + item.cat + '</i>' + item.title;
     gfig.appendChild(gimg);
@@ -1648,14 +1729,46 @@ body.devopen .dwrap{opacity:1;transform:none;}
     cardDimCache.push(-1);
     cardFadeCache.push(-1);
 
-    img.src = item.src;
-    gimg.src = item.src;
-
     bindTile(img, k, true);
     bindTile(gimg, k, false);
   }
 
   gcount.textContent = pad2(N) + ' 项';
+
+  /* 按当前朝向给所有卡片排个序：投影 z 越大越正对镜头。
+     首屏批次从这里面挑，补图也按这个顺序往后排 ——
+     即使网络很慢，用户第一眼看到的也是先填满的那一圈。 */
+  function frontOrder(){
+    var A = tilt * RAD, B = spin * RAD;
+    var ca = Math.cos(A), sa = Math.sin(A);
+    var cb = Math.cos(B), sb = Math.sin(B);
+    var list = [];
+    for (var i = 0; i < N; i++){
+      var u = units[i];
+      var z1 = (-u.y) * sa + u.z * ca;
+      list.push({ i: i, z: (-u.x) * sb + z1 * cb });
+    }
+    list.sort(function(a, b){ return b.z - a.z; });
+    return list;
+  }
+
+  /* 揭示后调用：按 frontOrder 的顺序把剩余素材分批补上。
+     批次大小 5、间隔 180ms，配合卡片自带的淡入，不会显得是"在加载"。 */
+  var deferredQueue = [];
+
+  function loadDeferred(){
+    var q = 0;
+    (function step(){
+      if (q >= deferredQueue.length) return;
+      var stop = Math.min(deferredQueue.length, q + 5);
+      for (; q < stop; q++){
+        var i = deferredQueue[q].i;
+        if (!cardImgs[i].src) cardImgs[i].src = SHOTS[i].src;
+        if (!gridImgs[i].src) gridImgs[i].src = SHOTS[i].src;
+      }
+      setTimeout(step, 180);
+    })();
+  }
 
   function bindTile(v, i, isSphere){
     v.addEventListener('load', function(){
@@ -1680,8 +1793,8 @@ body.devopen .dwrap{opacity:1;transform:none;}
   }
 
   /* ================= splash bookkeeping ================= */
-  /* 21 张 GIF 全部报告进来后才开始揭示；9s 兜底 */
-  var TOTAL = N;
+  /* 只等首屏那批（EAGER 张）报告进来；其余在揭示后补，不再拦着开场 */
+  var TOTAL = EAGER;
   var loaded = 0;
   var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
   var splashDone = false;
@@ -1709,11 +1822,12 @@ body.devopen .dwrap{opacity:1;transform:none;}
     setTimeout(function(){
       if (splash.parentNode) splash.parentNode.removeChild(splash);
     }, 950);
-    startIntro();
+    if (reduceMotion) goReveal();
+    else startIntro();
   }
 
   setTimeout(checkSplash, 1300);
-  setTimeout(finishSplash, 9000);
+  setTimeout(finishSplash, 5000);
 
   /* ================= intro（开场动画） ================= */
   /* 时序（相对 splash 收起）：0.62s 起逐行打字 → 2.3s 扫描线 → 2.85s 压黑
@@ -1895,6 +2009,17 @@ body.devopen .dwrap{opacity:1;transform:none;}
 
   layout();
   tuneSpin();
+
+  /* 首屏批次：球面正面朝向哪几张由 tuneSpin 决定，与数组顺序无关，
+     所以按投影深度挑最靠前的 EAGER 张先加载，揭开时正面是满的 */
+  var eagerSeed = frontOrder();
+  for (var ei = 0; ei < EAGER && ei < eagerSeed.length; ei++){
+    var ek = eagerSeed[ei].i;
+    cardImgs[ek].src = SHOTS[ek].src;
+    gridImgs[ek].src = SHOTS[ek].src;
+  }
+  deferredQueue = eagerSeed.slice(EAGER);
+
   /* 字体加载完成后重测一次标题宽度；若页面还没揭示，世界仍被 splash 盖住，
      此时重算自转不会产生可见跳动 */
   if (document.fonts && document.fonts.ready){
@@ -1911,7 +2036,24 @@ body.devopen .dwrap{opacity:1;transform:none;}
   var isCoarse = false;
   try { isCoarse = window.matchMedia('(pointer:coarse)').matches; } catch (e){}
 
+  /* 静止时整帧跳过：不算 21 次三角函数，也不写任何样式。
+     交互事件把 dirty 置位，保证状态变化后至少重算一帧。 */
+  var dirty = true;
+  var lastP = -1;
+
   function frame(){
+    var vh = window.innerHeight || 1;
+    var p = Math.max(0, Math.min(1, (window.scrollY || 0) / (vh * 0.16)));
+    var camZTarget = p * Math.min(64, R * 0.12);
+
+    var still = !dirty && !dragging && gesture !== 'rotate' &&
+                velX === 0 && velY === 0 &&
+                Math.abs(camZTarget - camZ) < 0.02 && p === lastP;
+    if (still) return;
+
+    dirty = false;
+    lastP = p;
+
     if (!dragging && !litOpen && gesture !== 'rotate'){
       dragX += velX;
       dragY += velY;
@@ -1926,10 +2068,6 @@ body.devopen .dwrap{opacity:1;transform:none;}
     if (dragY < loY) dragY = loY;
     if (dragY > hiY) dragY = hiY;
 
-    var vh = window.innerHeight || 1;
-    var p = Math.max(0, Math.min(1, (window.scrollY || 0) / (vh * 0.16)));
-
-    var camZTarget = p * Math.min(64, R * 0.12);
     camZ += (camZTarget - camZ) * 0.075;
 
     var sx = tilt + dragY;
@@ -2005,6 +2143,7 @@ body.devopen .dwrap{opacity:1;transform:none;}
     lastW = window.innerWidth;
     lastH = window.innerHeight;
     layout();
+    dirty = true;
   }
   window.addEventListener('resize', function(){
     var w = window.innerWidth, h = window.innerHeight;
@@ -2120,6 +2259,15 @@ body.devopen .dwrap{opacity:1;transform:none;}
   /* ================= lightbox ================= */
   var litToken = 0;
   var litSource = null;
+  var litCloseBtn = litEl.querySelector('.bar button');
+
+  /* 关闭状态的浮层从无障碍树和 tab 序列里摘出去，
+     否则读屏和键盘会摸到一堆看不见的按钮。 */
+  function setInert(el, on){
+    if (!el) return;
+    if (on) el.setAttribute('inert', '');
+    else el.removeAttribute('inert');
+  }
 
   function openShot(idx, sourceEl){
     if (litOpen || !isFinite(idx) || idx < 0 || idx >= N) return;
@@ -2131,6 +2279,7 @@ body.devopen .dwrap{opacity:1;transform:none;}
     litSource = sourceEl || null;
 
     litImg.src = item.src;
+    litImg.alt = item.title;
     litIdx.textContent = item.code;
     litTitle.textContent = item.title;
     litWhere.textContent = item.cat;
@@ -2139,6 +2288,8 @@ body.devopen .dwrap{opacity:1;transform:none;}
 
     body.classList.add('lit');
     docEl.style.overflow = 'hidden';
+    setInert(litEl, false);
+    dirty = true;
 
     plate.style.transition = 'none';
     plate.style.transform = 'none';
@@ -2160,6 +2311,11 @@ body.devopen .dwrap{opacity:1;transform:none;}
     plate.style.transition = '';
     plate.style.transform = '';
     plate.style.opacity = '';
+
+    /* 焦点移进对话框，键盘用户不会被留在背后的文档里 */
+    if (litCloseBtn) {
+      try { litCloseBtn.focus({preventScroll:true}); } catch (err){ litCloseBtn.focus(); }
+    }
   }
 
   function closeShot(){
@@ -2173,6 +2329,13 @@ body.devopen .dwrap{opacity:1;transform:none;}
 
     body.classList.remove('lit');
     docEl.style.overflow = '';
+    setInert(litEl, true);
+    dirty = true;
+
+    /* 关闭后把焦点还给打开它的那张卡片 */
+    if (src && src.focus){
+      try { src.focus({preventScroll:true}); } catch (err){}
+    }
 
     var pr = plate.getBoundingClientRect();
     var sr = src ? src.getBoundingClientRect() : null;
@@ -2207,21 +2370,40 @@ body.devopen .dwrap{opacity:1;transform:none;}
     openShot(parseInt(f.getAttribute('data-idx'), 10), f);
   });
 
+  /* 回车 / 空格等同于点一下网格条目 */
+  gridRows.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    var f = e.target.closest ? e.target.closest('figure') : null;
+    if (!f) return;
+    e.preventDefault();
+    openShot(parseInt(f.getAttribute('data-idx'), 10), f);
+  });
+
   /* ---------- 网格图按需解码，无需播放控制 ---------- */
 
   /* ================= grid toggle ================= */
+  var gridEl = document.getElementById('grid');
+
+  function setGridView(on){
+    body.classList.toggle('gridview', !!on);
+    setInert(gridEl, !on);
+    dirty = true;
+  }
+
   gridBtn.addEventListener('click', function(){
-    body.classList.toggle('gridview');
+    setGridView(!body.classList.contains('gridview'));
   });
 
   /* ================= menu ================= */
   function openMenu(){
     body.classList.add('menuopen');
+    setInert(menu, false);
     menuBtn.setAttribute('aria-expanded', 'true');
     menuBtn.setAttribute('aria-label', '关闭菜单');
   }
   function closeMenu(){
     body.classList.remove('menuopen');
+    setInert(menu, true);
     menuBtn.setAttribute('aria-expanded', 'false');
     menuBtn.setAttribute('aria-label', '打开菜单');
   }
@@ -2245,9 +2427,7 @@ body.devopen .dwrap{opacity:1;transform:none;}
     if (!a) return;
     e.preventDefault();
     closeDevlog();
-    if (!body.classList.contains('gridview')){
-      body.classList.add('gridview');
-    }
+    setGridView(true);
     closeMenu();
   });
 
@@ -2257,13 +2437,15 @@ body.devopen .dwrap{opacity:1;transform:none;}
   var devlog = document.getElementById('devlog');
 
   function openDevlog(){
-    body.classList.remove('gridview');
+    setGridView(false);
     body.classList.add('devopen');
+    setInert(devlog, false);
     devlog.scrollTop = 0;
     closeMenu();
   }
   function closeDevlog(){
     body.classList.remove('devopen');
+    setInert(devlog, true);
   }
 
   devlog.addEventListener('click', function(e){
@@ -2280,13 +2462,17 @@ body.devopen .dwrap{opacity:1;transform:none;}
       }
       return;
     }
+    /* 灯箱是模态的：Tab 只在这一个按钮上打转，不会跑到背后的页面里 */
+    if (e.key === 'Tab' && litOpen){
+      e.preventDefault();
+      if (litCloseBtn) litCloseBtn.focus();
+      return;
+    }
     if (e.key === 'Escape' || e.key === 'Esc'){
       if (litOpen){ closeShot(); return; }
       if (body.classList.contains('menuopen')){ closeMenu(); return; }
       if (body.classList.contains('devopen')){ closeDevlog(); return; }
-      if (body.classList.contains('gridview')){
-        body.classList.remove('gridview');
-      }
+      if (body.classList.contains('gridview')) setGridView(false);
     }
   });
 
@@ -2311,9 +2497,13 @@ body.devopen .dwrap{opacity:1;transform:none;}
     }, {passive:true});
 
     (function dotLoop(){
-      dotX += (targetX - dotX) * 0.2;
-      dotY += (targetY - dotY) * 0.2;
-      dot.style.transform = 'translate3d(' + dotX.toFixed(2) + 'px, ' + dotY.toFixed(2) + 'px, 0)';
+      var dx = targetX - dotX, dy = targetY - dotY;
+      /* 追上目标后就不再写样式，静止时这个循环是空转的 */
+      if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05){
+        dotX += dx * 0.2;
+        dotY += dy * 0.2;
+        dot.style.transform = 'translate3d(' + dotX.toFixed(2) + 'px, ' + dotY.toFixed(2) + 'px, 0)';
+      }
       window.requestAnimationFrame(dotLoop);
     })();
   }
@@ -2333,6 +2523,11 @@ body.devopen .dwrap{opacity:1;transform:none;}
 
     layout();
     window.requestAnimationFrame(layout);
+    dirty = true;
+
+    /* 开场盖板还在压黑，正好用来把剩下的素材补上，
+       顺序按"正对镜头优先"，用户第一眼看到的那圈先填满 */
+    loadDeferred();
 
     /* 与原版同节奏：先压黑 1s，再让站点浮起，标题入场延迟接着往下走 */
     setTimeout(function(){

@@ -31,7 +31,17 @@ def call(api: str, body: dict) -> dict:
         raise RuntimeError(f"{api} 返回非 JSON: {out[:300]}")
 
 
-def main(path: str, display_name: str, title: str) -> int:
+def main(argv) -> int:
+    args = [a for a in argv if not a.startswith('--')]
+    node_block_id = ''
+    for a in argv:
+        if a.startswith('--node-block-id='):
+            node_block_id = a.split('=', 1)[1].strip()
+    if len(args) < 3:
+        print('用法: import_to_library.py <zip> <显示名> <标题> [--node-block-id=xxx]', file=sys.stderr)
+        return 2
+    path, display_name, title = args[0], args[1], args[2]
+
     size = os.path.getsize(path)
     with open(path, "rb") as f:
         content = f.read()
@@ -53,6 +63,8 @@ def main(path: str, display_name: str, title: str) -> int:
         print("PUT ->", r.status, flush=True)
 
     payload = {"fileName": display_name, "title": title}
+    if node_block_id:
+        payload["nodeBlockId"] = node_block_id
     if data.get("confirmKey"):
         payload["confirmKey"] = data["confirmKey"]
     if data.get("taskId"):
@@ -66,4 +78,4 @@ def main(path: str, display_name: str, title: str) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1], sys.argv[2], sys.argv[3]))
+    raise SystemExit(main(sys.argv[1:]))

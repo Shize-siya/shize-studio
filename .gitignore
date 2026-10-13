@@ -2,6 +2,13 @@
 dist/
 *.zip
 
+# 构建与测试的临时产物
+.build/_cdp*/
+.build/_check.js
+.build/_dom*.html
+.build/_console.log
+.build/shot-*.png
+
 # 本地 / agent 工作数据
 .workbuddy/
 .tmp_opt/
