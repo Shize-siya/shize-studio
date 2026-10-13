@@ -1,0 +1,12 @@
+# 构建产物：由 .build/build_share.py 生成，可随时重建
+dist/
+*.zip
+
+# 本地 / agent 工作数据
+.workbuddy/
+.tmp_opt/
+
+# 系统垃圾文件
+Thumbs.db
+.DS_Store
+desktop.ini
